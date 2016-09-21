@@ -325,6 +325,20 @@ bugs where such dtypes were not handled properly.  In particular, changed
 ``ndarray.__new__`` to not implicitly convert ``dtype('S0')`` to
 ``dtype('S1')`` (and likewise for unicode) when creating new arrays.
 
+Emit py3kwarnings for division of integer arrays
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+To help people migrate their code bases from Python 2 to Python 3, the 
+python interpreter has a handy option -3, which issues warnings at runtime. 
+One of its warnings is for integer division:
+    $ python -3 -c "2/3"
+    
+    -c:1: DeprecationWarning: classic int division
+In Python 3, the new integer division semantics also apply to numpy arrays.
+With this version, numpy will emit a similar warning:
+    $ python -3 -c "import numpy as np; np.array(2)/np.array(3)"
+    
+    -c:1: DeprecationWarning: numpy: classic int division
+
 Integer ufuncs vectorized with AVX2
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 If the cpu supports it at runtime the basic integer ufuncs now use AVX2
